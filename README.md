@@ -10,7 +10,7 @@ The RESTful APi provides four basic endpoints with varying return values.
 #### POST /documents/new
 Takes a single argument ```content``` which must be a valid JSON document, and returns an URL from which the document can be fetched using a ```GET``` request.
 
-**Example**
+##### Example
 ```curl -u igneous:joel -X POST -d 'content="{\"abc\":\"123\"}"' http://igneous.joelf.me/documents/new```
 
 returns ```http://igneous.joelf.me/documents/3```
