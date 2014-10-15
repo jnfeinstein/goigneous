@@ -11,21 +11,27 @@ The RESTful APi provides four basic endpoints with varying return values.
 Takes a single argument ```content``` which must be a valid JSON document, and returns an URL from which the document can be fetched using a ```GET``` request.
 
 **Example**
-```curl -u igneous:joel -X POST -d 'content="{\"abc\":\"123\"}"' http://igneous.joelf.me/documents/new``` returns ```http://igneous.joelf.me/documents/3```
+```curl -u igneous:joel -X POST -d 'content="{\"abc\":\"123\"}"' http://igneous.joelf.me/documents/new```
+
+returns ```http://igneous.joelf.me/documents/3```
 
 ---
 #### GET /documents/:id
 Fetches the JSON document with ID ```:id```.  The results of a successful ```POST``` to ```/documents/new```, or ```PUT``` to ```/documents/:id``` are of this form.
 
 ##### Example
-```curl -u igneous:joel http://igneous.joelf.me/documents/3``` returns ```"{\"abc\":\"123\"}"```
+```curl -u igneous:joel http://igneous.joelf.me/documents/3```
+
+returns ```"{\"abc\":\"123\"}"```
 
 ---
 #### PUT /documents/:id
 Takes a single argument ```content``` which must be a valid JSON document, and updates the JSON document with ID ```:id``` while returning an URL from which the document can be fetched using a ```GET``` request
 
 ##### Example
-```curl -u igneous:joel -X PUT -d 'content="{\"xyz\":\"789\"}"' http://igneous.joelf.me/documents/3``` returns ```http://igneous.joelf.me/documents/3```
+```curl -u igneous:joel -X PUT -d 'content="{\"xyz\":\"789\"}"' http://igneous.joelf.me/documents/3```
+
+returns ```http://igneous.joelf.me/documents/3```
 
 ---
 #### DELETE /documents/:id
@@ -33,6 +39,8 @@ Deletes the JSON document with ID ```:id```.
 
 ##### Example
 ```curl -u igneous:joel -X DELETE http://igneous.joelf.me/documents/3```
+
+This endpoint will not return anything if it succeeds.
 
 ---
 
