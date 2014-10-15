@@ -38,7 +38,7 @@ def check_content(content, expected)
   end
 end
 
-host = ARGV.length > 0 && ARGV[0] == "-p" ? 'goigneous.herokuapp.com' : 'localhost:3000'
+host = ARGV.length > 0 && ARGV[0] == "-p" ? 'igneous.joelf.me' : 'localhost:3000'
 puts "Using host \"#{host}\""
 
 content = {:abc => "123"}
