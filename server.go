@@ -56,8 +56,13 @@ func main() {
 		}
 
 		doc, err := db.Get(id)
-		if checkError(err) || doc == nil {
+		if checkError(err) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		if doc == nil {
+			http.Error(w, "Document does not exist", http.StatusBadRequest)
 			return
 		}
 
@@ -73,8 +78,13 @@ func main() {
 
 		doc.Id = id // Links the new content to the old db entry
 		count, err := db.Update(&doc)
-		if count != 1 || err != nil {
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		if count < 1 {
+			http.Error(w, "Document does not exist", http.StatusBadRequest)
 			return
 		}
 
