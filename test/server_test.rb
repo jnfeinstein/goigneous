@@ -32,6 +32,20 @@ def check_content(content, expected)
   end
 end
 
+def check_error_type(type, expected)
+  if type != expected
+    puts "Type was \"#{type}\", expected \"#{expected}\""
+    exit
+  end
+end
+
+def check_time(started, ended, expected)
+  if ended - started > expected
+    puts "Took #{ended - started}s, should have been less than #{expected}s"
+    exit
+  end
+end
+
 host = ARGV.length > 0 && ARGV[0] == "-p" ? 'igneous.joelf.me' : 'localhost:3000'
 puts "Using host \"#{host}\""
 
@@ -61,5 +75,27 @@ check_content(response.to_str, update_content.to_json)
 puts "Deleting content"
 response = make_request(:delete, url)
 check_http_success(response)
+
+puts "Ensuring that content is protected"
+begin
+  RestClient.get("http://#{host}/documents/3")
+  exit
+rescue Exception => e
+  check_error_type(e.class, RestClient::Unauthorized)
+end
+
+puts "Checking multiple connections"
+url = make_request(:post, "http://#{host}/documents/new", {:content => content.to_json}).to_str
+started = Time.now
+threads = 5.times.map do
+  Thread.new do
+    response = make_request(:get, url)
+    check_http_success(response)
+    check_content(response.to_str, content.to_json)
+    sleep 9
+  end
+end
+threads.each{ |t| t.join }
+check_time(started, Time.now, 5)
 
 puts "Success"
