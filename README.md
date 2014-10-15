@@ -1,6 +1,8 @@
 ## Introduction
 
-GoIgneous is a JSON data-store that responds to a RESTful API.  A production version of this service is available at ```igneous.joelf.me```.
+GoIgneous is a JSON data-store that responds to a RESTful API.
+
+A production version of this service is available at ```igneous.joelf.me```.
 
 ## Usage
 
