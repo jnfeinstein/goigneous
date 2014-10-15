@@ -12,29 +12,23 @@ def make_request(method, url, payload=nil)
 end
 
 def check_http_success(response)
-  if response.code == 200
-    true
-  else
+  if response.code != 200
     puts "#{response.code}: #{response.to_str}"
-    false
+    exit
   end
 end
 
 def check_url(url, expected)
   if url != expected
     puts "Url was \"#{url}\", expected \"#{expected}\""
-    false
-  else
-    true
+    exit
   end
 end
 
 def check_content(content, expected)
   if content != expected
     puts "Content was \"#{content}\", expected \"#{expected}\""
-    false
-  else
-    true
+    exit
   end
 end
 
@@ -46,26 +40,26 @@ update_content = {:xyz => "123"}
 
 puts "Adding new entry"
 response = make_request(:post, "http://#{host}/documents/new", {:content => content.to_json})
-exit unless check_http_success(response)
+check_http_success(response)
 
 url = response.to_str
 puts "Verifying content"
 response = make_request(:get, url)
-exit unless check_http_success(response)
-exit unless check_content(response.to_str, content.to_json)
+check_http_success(response)
+check_content(response.to_str, content.to_json)
 
 puts "Updating content"
 response = make_request(:put, url, {:content => update_content.to_json})
-exit unless check_http_success(response)
-exit unless check_url(response.to_str, url)
+check_http_success(response)
+check_url(response.to_str, url)
 
 puts "Verifying updated content"
 response = make_request(:get, url)
-exit unless check_http_success(response)
-exit unless check_content(response.to_str, update_content.to_json)
+check_http_success(response)
+check_content(response.to_str, update_content.to_json)
 
 puts "Deleting content"
 response = make_request(:delete, url)
-exit unless check_http_success(response)
+check_http_success(response)
 
 puts "Success"
